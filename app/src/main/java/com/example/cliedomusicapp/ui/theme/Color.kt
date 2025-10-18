@@ -11,8 +11,8 @@ val Purple40 = Color(0xFF6650a4)
 val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
 
-val gradiente = Brush.linearGradient(
-    colors = listOf(Color(0xFF8A2BE2), Color(0xFF4B0082))
+val gradiente = Brush.verticalGradient(
+    colors = listOf(Color(0xFF9F62DC), Color(0xFF903BEF))
 )
 
 val morado = Color(0x79531B86)

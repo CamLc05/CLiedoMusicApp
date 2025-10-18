@@ -33,7 +33,7 @@ import com.example.cliedomusicapp.models.DetalleAlbumScreenRoute
 import com.example.cliedomusicapp.services.AlbumService
 
 @Composable
-fun CarouselAlbum(navController: NavController){
+fun CarruselAlbum(navController: NavController){
 
     val BASE_URL = "https://music.juanfrausto.com/"
     var albums by remember { mutableStateOf(listOf<Album>()) }

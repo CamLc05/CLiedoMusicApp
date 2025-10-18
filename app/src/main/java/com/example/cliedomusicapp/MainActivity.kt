@@ -11,6 +11,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
+import com.example.cliedomusicapp.models.DetalleAlbumScreenRoute
+import com.example.cliedomusicapp.screens.DetalleAlbumScreen
+import com.example.cliedomusicapp.models.HomeScreenRoute
+import com.example.cliedomusicapp.screens.HomeScreen
 import com.example.cliedomusicapp.ui.theme.CLiedoMusicAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -18,17 +26,24 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            val navController = rememberNavController()
             CLiedoMusicAppTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    NavHost(navController = navController, startDestination = HomeScreenRoute){
+                        composable<HomeScreenRoute> {
+                            HomeScreen(navController)
+                        }
+                        composable<DetalleAlbumScreenRoute> { backEntry ->
+                            val args = backEntry.toRoute<DetalleAlbumScreenRoute>()
+                            DetalleAlbumScreen(args.id, navController)
+                        }
+                    }
                 }
             }
         }
     }
 }
+
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {

@@ -21,8 +21,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.compose.rememberNavController
+import com.example.cliedomusicapp.screens.HomeScreen
+import com.example.cliedomusicapp.ui.theme.CLiedoMusicAppTheme
 import com.example.cliedomusicapp.ui.theme.gradiente
 
 @Composable
@@ -30,7 +34,7 @@ fun Header(){
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(35.dp),
+            .padding(top = 40.dp, start = 16.dp, end = 16.dp),
         shape = RoundedCornerShape(24.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
@@ -69,5 +73,16 @@ fun Header(){
                 fontWeight = FontWeight.Bold
             )
         }
+    }
+}
+
+@Preview(
+    showSystemUi = true,
+    showBackground = true
+)
+@Composable
+fun HomeScreenPreview(){
+    CLiedoMusicAppTheme {
+        Header()
     }
 }

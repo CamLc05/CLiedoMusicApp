@@ -31,7 +31,7 @@ import com.example.cliedomusicapp.models.DetalleAlbumScreenRoute
 import com.example.cliedomusicapp.services.AlbumService
 
 @Composable
-fun AlbumDetailScreen(id: String, navController: NavController) {
+fun DetalleAlbumScreen(id: String, navController: NavController) {
     var album by remember { mutableStateOf<Album?>(null) }
     var loading by remember { mutableStateOf(true) }
 
@@ -47,7 +47,7 @@ fun AlbumDetailScreen(id: String, navController: NavController) {
             val service = retrofit.create(AlbumService::class.java)
 
             val resultAlbum = withContext(Dispatchers.IO) { service.getAlbumById(id) }
-            val resultAllAlbums = withContext(Dispatchers.IO) { service.getAllAlbums() } // <-- 3. LLAMADA PARA TODOS LOS ÁLBUMES
+            val resultAllAlbums = withContext(Dispatchers.IO) { service.getAllAlbums() }
 
             album = resultAlbum
             allAlbums = resultAllAlbums
