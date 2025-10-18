@@ -35,13 +35,16 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import com.example.cliedomusicapp.models.Album
 import com.example.cliedomusicapp.models.DetalleAlbumScreenRoute
+import com.example.cliedomusicapp.models.MusicPlayerViewModel
 import com.example.cliedomusicapp.ui.theme.CLiedoMusicAppTheme
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import com.example.cliedomusicapp.services.AlbumService
 @Composable
-fun HomeScreen(navController: NavController){
-
+fun HomeScreen(
+    navController: NavController,
+    musicPlayerViewModel: MusicPlayerViewModel
+) {
     val BASE_URL = "https://music.juanfrausto.com/"
     var albums by remember { mutableStateOf(listOf<Album>()) }
     var loading by remember { mutableStateOf(true) }
@@ -64,60 +67,36 @@ fun HomeScreen(navController: NavController){
     }
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
+        modifier = Modifier.fillMaxSize()
     ) {
         Header()
 
-        if (loading){
+        if (loading) {
             Box(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) {
                 CircularProgressIndicator(color = Color(0xFF4C06A6))
             }
-        }else{
-
+        } else {
             CarruselAlbum(navController)
 
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp, vertical = 10.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
+            LazyColumn(
+                modifier = Modifier.padding(vertical = 15.dp)
             ) {
-                Text(
-                    text = "Recently Played",
-                    style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Bold
-                )
-                Text(
-                    text = "See more",
-                    color = Color(0xFF673AB7),
-                    fontWeight = FontWeight.SemiBold
-                )
-            }
-            LazyColumn(modifier = Modifier
-                .padding(vertical = 15.dp)) {
-                items(albums){ album ->
-                    ListaAlbums(album, {navController.navigate(DetalleAlbumScreenRoute(album.id))})
+                items(albums) { album ->
+                    ListaAlbums(album, onClick = {
+                        musicPlayerViewModel.updateTrack(
+                            albumTitle = album.title,
+                            artistName = album.artist,
+                            imageUrl = album.image
+                        )
+
+                        navController.navigate(DetalleAlbumScreenRoute(album.id))
+                    })
                 }
             }
-
         }
-
     }
 }
 
-@Preview(
-    showSystemUi = true,
-    showBackground = true
-)
-@Composable
-fun HomeScreenPreview(){
-    CLiedoMusicAppTheme {
-        val navController = rememberNavController()
-        HomeScreen(navController)
-    }
-}

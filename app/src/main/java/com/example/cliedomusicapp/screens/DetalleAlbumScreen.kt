@@ -1,9 +1,7 @@
 package com.example.cliedomusicapp.screens
 
 import android.util.Log
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,17 +12,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -45,13 +39,12 @@ import androidx.navigation.NavController
 import coil3.compose.AsyncImage
 import com.example.cliedomusicapp.components.AboutAlbum
 import com.example.cliedomusicapp.components.CardAlbumDetalle
-import com.example.cliedomusicapp.components.ListaAlbums
+import com.example.cliedomusicapp.components.MiniPlayer
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import com.example.cliedomusicapp.models.Album
-import com.example.cliedomusicapp.models.DetalleAlbumScreenRoute
 import com.example.cliedomusicapp.services.AlbumService
 import com.example.cliedomusicapp.ui.theme.Purple40
 
@@ -59,6 +52,9 @@ import com.example.cliedomusicapp.ui.theme.Purple40
 fun DetalleAlbumScreen(id: String, navController: NavController) {
     var album by remember { mutableStateOf<Album?>(null) }
     var loading by remember { mutableStateOf(true) }
+
+    // Estado del MiniPlayer: título, artista, imagen
+    var currentTrack by remember { mutableStateOf<Album?>(null) }
 
     LaunchedEffect(key1 = id) {
         try {
@@ -68,7 +64,6 @@ fun DetalleAlbumScreen(id: String, navController: NavController) {
                 .build()
 
             val service = retrofit.create(AlbumService::class.java)
-
             val resultAlbum = withContext(Dispatchers.IO) { service.getAlbumById(id) }
             album = resultAlbum
         } catch (e: Exception) {
@@ -78,38 +73,40 @@ fun DetalleAlbumScreen(id: String, navController: NavController) {
         }
     }
 
-    LazyColumn(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        if (loading) {
-            item {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(32.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    CircularProgressIndicator(color = Purple40)
+    Box(modifier = Modifier.fillMaxSize()) {
+        LazyColumn(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            if (loading) {
+                item {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(32.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CircularProgressIndicator(color = Purple40)
+                    }
+                }
+            } else if (album != null) {
+                item { CardAlbumDetalle(album = album!!, navController) }
+                item { AboutAlbum(album = album!!) }
+
+                // Lista de canciones ficticias o reales de la API
+                items(10) { index ->
+                    CancionItem(
+                        trackNumber = index + 1,
+                        album = album!!
+                    )
                 }
             }
-        } else if (album != null) {
-            item {
-                CardAlbumDetalle(album = album!!, navController)
-            }
-
-            item {
-                AboutAlbum(album = album!!)
-            }
-
-            items(10) { index ->
-                CancionItem(
-                    trackNumber = index + 1,
-                    album = album!!
-                )
-            }
         }
+
     }
-}@Composable
+}
+
+
+@Composable
 fun CancionItem(trackNumber: Int, album: Album) {
     Card(
         modifier = Modifier
@@ -137,11 +134,9 @@ fun CancionItem(trackNumber: Int, album: Album) {
                     .weight(1f)
                     .padding(horizontal = 16.dp)
             ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
-                        text = "${album.title} • Track $trackNumber",
+                        text = "${album.title}  • Track $trackNumber",
                         fontWeight = FontWeight.Bold,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
