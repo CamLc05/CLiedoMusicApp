@@ -14,3 +14,5 @@ val Pink40 = Color(0xFF7D5260)
 val gradiente = Brush.linearGradient(
     colors = listOf(Color(0xFF8A2BE2), Color(0xFF4B0082))
 )
+
+val morado = Color(0x79531B86)
