@@ -34,7 +34,7 @@ fun ListaAlbums(album: Album, onClick: () -> Unit){
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(bottom = 8.dp)
+            .padding(bottom = 15.dp, start = 16.dp, end = 16.dp)
             .clickable{onClick()},
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),

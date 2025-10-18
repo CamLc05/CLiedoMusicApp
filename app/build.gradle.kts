@@ -66,7 +66,7 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:3.0.0")
     implementation("io.coil-kt.coil3:coil-compose:3.2.0")
     implementation("io.coil-kt.coil3:coil-network-okhttp:3.2.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.1")
 
     // Accompanist Pager para carrusel
 
@@ -77,7 +77,5 @@ dependencies {
     val nav_version = "2.8.9"
 
     implementation("androidx.navigation:navigation-compose:$nav_version")
-
-
 
 }

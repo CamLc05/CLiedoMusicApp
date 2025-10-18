@@ -67,7 +67,6 @@ fun HomeScreen(navController: NavController){
         modifier = Modifier
             .fillMaxSize()
     ) {
-        //HEADER
         Header()
 
         if (loading){
@@ -81,30 +80,26 @@ fun HomeScreen(navController: NavController){
 
             CarruselAlbum(navController)
 
-            LazyColumn(
-                modifier = Modifier.padding(10.dp)
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 10.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                item {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 16.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ) {
-                        Text(
-                            text = "Recently Played",
-                            style = MaterialTheme.typography.titleLarge,
-                            fontWeight = FontWeight.Bold
-                        )
-                        Text(
-                            text = "See more",
-                            color = Color(0xFF673AB7),
-                            fontWeight = FontWeight.SemiBold
-                        )
-                    }
-                }
-
+                Text(
+                    text = "Recently Played",
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold
+                )
+                Text(
+                    text = "See more",
+                    color = Color(0xFF673AB7),
+                    fontWeight = FontWeight.SemiBold
+                )
+            }
+            LazyColumn(modifier = Modifier
+                .padding(vertical = 15.dp)) {
                 items(albums){ album ->
                     ListaAlbums(album, {navController.navigate(DetalleAlbumScreenRoute(album.id))})
                 }

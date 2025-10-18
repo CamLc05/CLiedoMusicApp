@@ -61,24 +61,14 @@ fun DetalleAlbumScreen(id: String, navController: NavController) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFFF0F0F7))
     ) {
         if (loading) {
         } else if (album != null) {
             item {
-                CardAlbumDetalle(album = album!!)
+                CardAlbumDetalle(album = album!!, navController)
             }
             item {
                 AboutAlbum(album = album!!)
-            }
-
-            item {
-                Text(
-                    text = "More Albums",
-                    style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(start = 16.dp, top = 24.dp, bottom = 8.dp)
-                )
             }
 
             items(allAlbums) { albumFromList ->

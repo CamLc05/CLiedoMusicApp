@@ -1,5 +1,6 @@
 package com.example.cliedomusicapp.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.cliedomusicapp.models.Album
+import com.example.cliedomusicapp.ui.theme.Purple40
 
 @Composable
 fun AboutAlbum(album: Album) {
@@ -35,7 +37,8 @@ fun AboutAlbum(album: Album) {
                 Text(
                     text = "About this album",
                     style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    color = Purple40
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
@@ -49,8 +52,8 @@ fun AboutAlbum(album: Album) {
         Card(
             modifier = Modifier
                 .padding(horizontal = 16.dp),
-            shape = RoundedCornerShape(12.dp),
-            colors = CardDefaults.cardColors(containerColor = Color(0xFFEADDFF))
+            shape = RoundedCornerShape(50.dp),
+            colors = CardDefaults.cardColors(containerColor = Color.White),
         ) {
             Row(
                 modifier = Modifier
@@ -58,7 +61,8 @@ fun AboutAlbum(album: Album) {
             ) {
                 Text(
                     "Artist: ",
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    color = Purple40
                 )
                 Text(album.artist)
             }

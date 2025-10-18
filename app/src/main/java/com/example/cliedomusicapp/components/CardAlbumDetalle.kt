@@ -32,20 +32,23 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.example.cliedomusicapp.models.Album
+import androidx.navigation.NavController
 
 @Composable
-fun CardAlbumDetalle(album: Album) {
+fun CardAlbumDetalle(album: Album, navController: NavController) {
     Box(
         modifier = Modifier
+            .padding(top = 40.dp, start = 16.dp, end = 16.dp)
             .fillMaxWidth()
-            .height(400.dp)
-            .clip(RoundedCornerShape(bottomStart = 32.dp, bottomEnd = 32.dp))
+            .height(320.dp)
+            .clip(RoundedCornerShape(32.dp))
     ) {
         AsyncImage(
             model = album.image,
             contentDescription = album.title,
             contentScale = ContentScale.Crop,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
         )
 
         Box(
@@ -67,7 +70,7 @@ fun CardAlbumDetalle(album: Album) {
                 .padding(16.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            IconButton(onClick = { }) {
+            IconButton(onClick = { navController.popBackStack() }) {
                 Icon(Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = "Back",
                     tint = Color.White)
